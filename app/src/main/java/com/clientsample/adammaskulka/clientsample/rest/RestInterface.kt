@@ -8,6 +8,7 @@ interface RestInterface {
 
     @GET("lights")
     fun search(@Query("light") light: Int,
-               @Query("level") level: Int): Observable<Result>
+               @Query("level") level: Int,
+               @Query("code") code: String): Observable<Result>
 
 }
