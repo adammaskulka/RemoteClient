@@ -1,9 +1,8 @@
 package com.clientsample.adammaskulka.clientsample
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.clientsample.adammaskulka.clientsample.R.id.numpad
+import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -30,4 +29,5 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
 }

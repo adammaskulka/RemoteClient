@@ -1,18 +1,15 @@
 package com.clientsample.adammaskulka.clientsample
 
-import android.support.v7.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.ActionBar
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.util.Log.e
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import com.clientsample.adammaskulka.clientsample.rest.RestService
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.internal.operators.flowable.FlowableReplay.observeOn
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_controller.*
 import java.util.concurrent.TimeUnit
@@ -33,6 +30,12 @@ class ControllerActivity : AppCompatActivity() {
         changeURLButton.setOnClickListener({
             RestService.changeBaseUrl(urlEditText.text.toString())
             restService = RestService.getRestApi()
+        })
+
+        scanButton.setOnClickListener({
+            val intent = Intent(this, ScannerActivity::class.java)
+            //startActivity(intent)
+            startActivityForResult(intent, 1)
         })
 
 
@@ -94,6 +97,17 @@ class ControllerActivity : AppCompatActivity() {
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (data == null) {
+            return
+        }
+
+
+        urlEditText.setText(data.getStringExtra("BRCode"))
+        Log.i("CODE", data.getStringExtra("BRCode"))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
