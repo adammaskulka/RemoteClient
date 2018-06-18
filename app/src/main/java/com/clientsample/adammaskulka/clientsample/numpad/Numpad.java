@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import com.clientsample.adammaskulka.clientsample.R;
 
 import java.util.ArrayList;
@@ -38,7 +37,7 @@ public class Numpad extends FrameLayout implements View.OnClickListener {
     private int GridThickness = 3;
     private String FontFaceString = "";
     private Typeface typeface;
-    private ImageView delete;
+    private TextView delete;
     private TextView blank;
     private FrameLayout delete_layout;
     private TextGetListner textGetListner;
@@ -124,7 +123,7 @@ public class Numpad extends FrameLayout implements View.OnClickListener {
         line.add((ImageView) v.findViewById(R.id.line11));
         delete = v.findViewById(R.id.delete);
         blank = v.findViewById(R.id.blank);
-        delete_layout = v.findViewById(R.id.delete_layout);
+//        delete_layout = v.findViewById(R.id.delete_layout);
         if (FontFaceString == null) {
             typeface = Typeface.DEFAULT;
         } else {
@@ -164,13 +163,17 @@ public class Numpad extends FrameLayout implements View.OnClickListener {
             line.get(10).setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, GridThickness));
         }
 
-        delete_layout.setOnClickListener(this);
-        delete_layout.setBackgroundResource(BackgroundResource);
-        delete.setImageResource(ImageResource);
+//        delete_layout.setOnClickListener(this);
+//        delete_layout.setBackgroundResource(BackgroundResource);
+        delete.setOnClickListener(this);
     }
 
     public String getDigits() {
         return digits;
+    }
+
+    public void resetDigits() {
+        digits = "*";
     }
 
     public int getTextLengthLimit() {
@@ -245,7 +248,7 @@ public class Numpad extends FrameLayout implements View.OnClickListener {
         return typeface;
     }
 
-    public ImageView getImageResourceView() {
+    public TextView getImageResourceView() {
         return delete;
     }
 

@@ -4,8 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
+import android.util.Log.i
+import android.view.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -13,7 +13,7 @@ class NumpadActivity : AppCompatActivity() {
 
 //    val numbers: IntArray = StringArrayOf(100, 200, 300, 400, 550)
 
-    val strings = arrayOf("*01", "*02", "*03", "*04", "*05", "*06", "*07")
+    val strings = arrayOf("*01#", "*02#", "*03#", "*04#", "*05#", "*06#", "*07#")
 
 
     companion object {
@@ -27,6 +27,34 @@ class NumpadActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+
+        val metrics = this.resources.displayMetrics
+        val width = metrics.widthPixels
+        val height = metrics.heightPixels
+        val freeSpace = height - width
+
+//        i("H", height.toString())
+//        i("W", width.toString())
+//        i("freeSpace", freeSpace.toString())
+//
+//        setMargins(view, 0, freeSpace/2, 0, 0)
+
+        var params = numpad.getLayoutParams()
+        params.width = width
+        params.height = width
+        numpad.setLayoutParams(params)
+
+
+        i("viewpaddingTop", view.paddingTop.toString())
+
+
+        params = numpad.getLayoutParams()
+
+        i("H", params.height.toString())
+        i("W", params.width.toString())
+
         val actionBar = supportActionBar
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true)
@@ -35,7 +63,14 @@ class NumpadActivity : AppCompatActivity() {
 
         numpad.setOnTextChangeListner { text, digits_remaining ->
 
-            textView.text = text;
+            i("TEXT", text)
+
+            if (text.length > 1 && text[text.length - 1].toString() == "*") {
+                numpad.resetDigits()
+                textView.text = "*"
+            } else {
+                textView.text = text;
+            }
 
             if (text.isNotEmpty() && strings.contains(text)) {
                 val intent = Intent(this@NumpadActivity, ControllerActivity::class.java)
@@ -45,12 +80,20 @@ class NumpadActivity : AppCompatActivity() {
 
         }
 
-        val timer = MyCountDown(10000, 1000)
+//        val timer = MyCountDown(10000, 1000)
 
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun setMargins(view: View, left: Int, top: Int, right: Int, bottom: Int) {
+        if (view.getLayoutParams() is ViewGroup.MarginLayoutParams) {
+            val p = view.getLayoutParams() as ViewGroup.MarginLayoutParams
+            p.setMargins(left, top, right, bottom)
+            view.requestLayout()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -200,20 +200,43 @@
             android:layout_height="0.5dp"
             android:visibility="gone" />
 
-        <FrameLayout
-            android:id="@+id/delete_layout"
+        <TextView
+            android:id="@+id/delete"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center">
+            android:gravity="center"
+            android:text="#"
+            android:textColor="#000"
+            android:textSize="16dp" />
+
+        <!--<FrameLayout-->
+        <!--android:id="@+id/delete_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1"-->
+        <!--android:gravity="center">-->
+
+        <!--<TestView-->
+        <!--android:id="@+id/delete"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center" />-->
 
 
-            <ImageView
-                android:id="@+id/delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_backspace" />
-        </FrameLayout>
+        <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/delete"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_gravity="center"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:src="@drawable/ic_backspace" />&ndash;&gt;-->
+        <!--</FrameLayout>-->
+
+        <!--<ImageView-->
+        <!--android:id="@+id/delete"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:src="@drawable/ic_backspace" />-->
     </LinearLayout>
 </LinearLayout>
