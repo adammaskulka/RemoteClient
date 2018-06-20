@@ -13,7 +13,7 @@ class NumpadActivity : AppCompatActivity() {
 
 //    val numbers: IntArray = StringArrayOf(100, 200, 300, 400, 550)
 
-    val strings = arrayOf("*01#", "*02#", "*03#", "*04#", "*05#", "*06#", "*07#")
+    val strings = arrayOf("*01#", "*02#", "*03#", "*04#", "*05#", "*06#", "*07#", "*08#", "*09#", "*10#")
 
 
     companion object {
@@ -80,7 +80,7 @@ class NumpadActivity : AppCompatActivity() {
 
         }
 
-//        val timer = MyCountDown(10000, 1000)
+        val timer = MyCountDown(10000, 1000)
 
     }
 

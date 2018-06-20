@@ -12,6 +12,7 @@ import android.util.Log
 import android.util.Log.e
 import android.util.Log.i
 import android.view.*
+import com.chibatching.kotpref.KotprefModel
 import com.clientsample.adammaskulka.clientsample.NumpadActivity.Companion.CODE_STRING
 import com.clientsample.adammaskulka.clientsample.rest.RestService
 import io.reactivex.Observable
@@ -22,15 +23,21 @@ import java.net.NetworkInterface
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+object RestInfo : KotprefModel() {
+
+    var URL by stringPref()
+
+}
 
 class ControllerActivity : AppCompatActivity() {
 
     var level:Int = 1;
 
-    var code: String = "*01"
+    var code: String = "*01#"
 
     var toolbar: Toolbar? = null
     var actionBar: ActionBar? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +49,7 @@ class ControllerActivity : AppCompatActivity() {
         toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
+
         val ip: String? = getIPAddress(true)
         i("IP", "IP: " + ip)
 
@@ -50,9 +58,13 @@ class ControllerActivity : AppCompatActivity() {
         val d = wifii.getDhcpInfo();
         val gateway = intToIp(d.gateway)
 
-        i("gateway", "gateway: " + gateway)
-        RestService.changeBaseUrl("http://" + gateway + ":8080")
-
+        if (RestInfo.URL.isEmpty()) {
+            i("gateway", "gateway: " + gateway)
+            RestService.changeBaseUrl("http://" + gateway + "/cgi-bin/")
+            RestInfo.URL = "http://" + gateway + "/cgi-bin/";
+        } else {
+            RestService.changeBaseUrl(RestInfo.URL)
+        }
 
         actionBar = supportActionBar
 
@@ -71,6 +83,7 @@ class ControllerActivity : AppCompatActivity() {
 
         changeURLButton.setOnClickListener({
             RestService.changeBaseUrl(urlEditText.text.toString())
+            RestInfo.URL = urlEditText.text.toString()
             restService = RestService.getRestApi()
         })
 
@@ -88,7 +101,6 @@ class ControllerActivity : AppCompatActivity() {
                         e("Error", error.message)
                         error(error)
                     })
-            addToLevel()
         })
         button2.setOnClickListener({
             restService.search(2, levelEditText.text.toString().toInt(), code)
@@ -102,7 +114,6 @@ class ControllerActivity : AppCompatActivity() {
                         error ->
                         error(error)
                     })
-            addToLevel()
         })
         button3.setOnClickListener({
             restService.search(3, levelEditText.text.toString().toInt(), code)
@@ -116,7 +127,6 @@ class ControllerActivity : AppCompatActivity() {
                         error ->
                         error(error)
                     })
-            addToLevel()
         })
         button4.setOnClickListener({
             restService.search(4, levelEditText.text.toString().toInt(), code)
@@ -130,7 +140,6 @@ class ControllerActivity : AppCompatActivity() {
                         error ->
                         error(error)
                     })
-            addToLevel()
         })
         button5.setOnClickListener({
             restService.search(5, levelEditText.text.toString().toInt(), code)
@@ -143,7 +152,6 @@ class ControllerActivity : AppCompatActivity() {
                     }, { error ->
                         error(error)
                     })
-            addToLevel()
         })
         button6.setOnClickListener({
             restService.search(6, levelEditText.text.toString().toInt(), code)
@@ -156,7 +164,6 @@ class ControllerActivity : AppCompatActivity() {
                     }, { error ->
                         error(error)
                     })
-            addToLevel()
         })
 
 
@@ -209,9 +216,13 @@ class ControllerActivity : AppCompatActivity() {
         // Handle presses on the action bar menu items
         when (item.itemId) {
             R.id.photoMenu -> {
-                val intent = Intent(this, ScannerActivity::class.java)
+//                val intent = Intent(this, ScannerActivity::class.java)
+//                //startActivity(intent)
+//                startActivityForResult(intent, 1)
+
+                val intent = Intent(this, NumpadActivity::class.java)
                 //startActivity(intent)
-                startActivityForResult(intent, 1)
+                startActivity(intent)
             }
             R.id.keyboardMenu -> {
                 val intent = Intent(this, NumpadActivity::class.java)
